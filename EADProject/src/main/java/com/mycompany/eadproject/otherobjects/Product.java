@@ -17,6 +17,14 @@ public class Product {
         return this.product_price;
     }
 
+    public String getproductid(){
+        return  this.product_id;
+    }
+
+    public String getproductname(){
+        return  this.product_name;
+    }
+
 
 }
 
