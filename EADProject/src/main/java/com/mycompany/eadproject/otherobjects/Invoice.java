@@ -3,6 +3,8 @@ import java.util.HashMap;
 
 import javax.print.attribute.standard.DateTimeAtCreation;
 
+
+
 public class Invoice {
     private HashMap<Product,Integer> hash = new HashMap<Product,Integer>();
     private String invoice_number;

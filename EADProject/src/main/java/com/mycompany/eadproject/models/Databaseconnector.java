@@ -115,22 +115,54 @@ public class Databaseconnector {
     }
 
       //when invoice created product updated
-      // Method 1: Get product price (needed for calculation)
-    public double getProductPrice(String product_id) {
-         try {
-            String query = "SELECT product_price FROM Product WHERE product_id = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, product_id);
-            ResultSet rs = stmt.executeQuery();
-        
-            if (rs.next()) {
-            return rs.getDouble("product_price");
-             }
-        }catch (Exception e) {
-        System.out.println("Error getting product price: " + e);
+      // --- Fetch Product Price ---
+public double getProductPrice(String productId) {
+    double price = -1; // default if not found
+    String sql = "SELECT product_price FROM product WHERE product_id = ?";
+    try {
+        if (conn == null || conn.isClosed()) {
+            connectDatabase();
         }
-         return 0.0;
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, productId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            price = rs.getDouble("product_price");
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        System.out.println("Error in getProductPrice: " + e.getMessage());
     }
+    return price;
+}
+
+// --- Fetch Product Name ---
+public String getProductName(String productId) {
+    String name = null;
+    String sql = "SELECT product_name FROM product WHERE product_id = ?";
+    try {
+        if (conn == null || conn.isClosed()) {
+            connectDatabase();
+        }
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, productId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            name = rs.getString("product_name");
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        System.out.println("Error in getProductName: " + e.getMessage());
+    }
+    return name;
+}
+
+
+
+
+
 
     // Method 2: Check if product has enough stock
     public boolean checkProductStock(String product_id, int requestedQuantity) {

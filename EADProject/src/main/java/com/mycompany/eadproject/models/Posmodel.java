@@ -12,12 +12,17 @@ public class Posmodel {
         this.quantity=quantity;
     }
 
+    public String getId() {
+    return id;
+    }
+
+
      public double getPrice() {
         return price;
     }
-    public int getQuanitiy(){
-        return quantity;
-    }
+    public int getQuantity() {
+    return quantity;
+   }
 
     //check price based on id
     public void invoiceflow(String id){
