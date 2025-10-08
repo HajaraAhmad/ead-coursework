@@ -361,28 +361,32 @@ public void displayInvoiceFromDB(String invoiceNumber) {
 
 
     //View all products
-    public String [][] selectsproducts(){
-        try{
+    public String[][] selectsproducts() {
+        String[][] products = new String[0][];
+        try {
             int num_of_rows = getRows();
-            String [][] product = new String[num_of_rows][5];
+            products = new String[num_of_rows][5];
 
-             String query = "SELECT * FROM product";
-
-             PreparedStatement selectquery = conn.prepareStatement(query);
-
+            String query = "SELECT * FROM product";
+            PreparedStatement selectquery = conn.prepareStatement(query);
             ResultSet results = selectquery.executeQuery();
-            for (int i = 0; i < num_of_rows; i++){
-                results.next();
-                for(int j = 0; j < 5; j++){
-                    product[i][j] = result.get
-                }
+
+            int i = 0;
+            while (results.next() && i < num_of_rows) {
+                products[i][0] = results.getString("product_id");
+                products[i][1] = results.getString("product_name");
+                products[i][2] = results.getString("supplier_number");
+                products[i][3] = String.valueOf(results.getDouble("product_price"));
+                products[i][4] = String.valueOf(results.getInt("product_quantity"));
+                i++;
             }
-                
-        }
-        catch(Exception e){
+            results.close();
+            selectquery.close();
+        } catch (Exception e) {
             System.out.println(e);
         }
-      }
+        return products;
+    }
 
     public int getquantity(String id) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -407,6 +411,5 @@ public void displayInvoiceFromDB(String invoiceNumber) {
     }
 
 
-    
 
 }

@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.mycompany.eadproject.models.Databaseconnector;
 import com.mycompany.eadproject.models.Posmodel;
+import com.mycompany.eadproject.view.AdminMainFrame;
 
 /**
  *
@@ -15,6 +16,10 @@ import com.mycompany.eadproject.models.Posmodel;
 public class EADProject {
 
     public static void main(String[] args) {
+      AdminMainFrame view = new AdminMainFrame();
+      view.setVisible(true);
+
+    
     /*    
         Scanner sc = new Scanner(System.in);
 
@@ -114,7 +119,7 @@ public class EADProject {
     p.checkStock(id, quantity);
 
     */
-
+/* 
    Scanner sc = new Scanner(System.in);
 
     
@@ -140,7 +145,7 @@ public class EADProject {
 
     Posmodel pos = new Posmodel(null, 0.0, 0);
     pos.generateInv(products, invoiceDate);
-    
+    */
     
    // Loginpage loginpage = new Loginpage();
 

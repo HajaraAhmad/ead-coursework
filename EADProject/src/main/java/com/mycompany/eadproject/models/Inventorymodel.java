@@ -18,6 +18,26 @@ public class Inventorymodel{
         this.quantity=quantity;
     }
 
+    public double getprice(){
+        return this.price;
+    }
+
+    public String getid(){
+        return  this.id;
+    }
+
+    public String getname(){
+        return  this.name;
+    }
+
+    public String getsupplierno(){
+        return supplier_no;
+    }
+
+    public int getquantity(){
+        return quantity;
+    }
+
 
     public void enterProduct(){
         try{
