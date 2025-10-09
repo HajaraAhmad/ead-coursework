@@ -13,18 +13,19 @@ public Loginmodel(String email,String password){
 
 
 
-public void loginFlow(){
-
+public String loginFlow(){
+    String role = "";
     try{
         Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/users", "root", "ashroff64");
-        String result=db.selectUserFromUserEmail(this.email);
+        String[] result=db.selectUserFromUserEmail(this.email);
 
         if(result == null){
             System.out.println("User Doesn't Exist");
         }
         else{
-            if(password.equals((result))){
+            if(password.equals((result[0]))){
                 System.out.println("User logged sucessfully");
+                role = result[1];
             }
             else{
                 System.out.println("Incorrect password");
@@ -35,5 +36,6 @@ public void loginFlow(){
     }catch(Exception e){
         System.out.println(e);
     }
+    return role;
 }
 }

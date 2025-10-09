@@ -21,7 +21,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnInventory = new javax.swing.JButton();
         btnSuppliers = new javax.swing.JButton();
-        btnInvoices = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
@@ -42,10 +41,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
         btnSuppliers.setText("Manage Suppliers");
         btnSuppliers.addActionListener(this::btnSuppliersActionPerformed);
 
-        btnInvoices.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        btnInvoices.setText("View Invoices");
-        btnInvoices.addActionListener(this::btnInvoicesActionPerformed);
-
         btnLogout.setFont(new java.awt.Font("Segoe UI", 2, 12));
         btnLogout.setText("Logout");
         btnLogout.addActionListener(evt -> System.exit(0));
@@ -58,7 +53,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
                     .addContainerGap(20, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnSuppliers, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnInvoices, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnLogout))
                     .addContainerGap(20, Short.MAX_VALUE))
@@ -70,8 +64,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
                     .addComponent(btnInventory)
                     .addGap(40)
                     .addComponent(btnSuppliers)
-                    .addGap(40)
-                    .addComponent(btnInvoices)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                     .addComponent(btnLogout)
                     .addGap(40))
@@ -116,10 +108,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
         cardLayout.show(jPanel2, "suppliers");
     }
 
-    private void btnInvoicesActionPerformed(java.awt.event.ActionEvent evt) {
-        cardLayout.show(jPanel2, "invoices");
-    }
-
     private void btnInventoryActionPerformed(java.awt.event.ActionEvent evt) {
         cardLayout.show(jPanel2, "inventory");
     }
@@ -132,7 +120,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
         // Add your page panels
         jPanel2.add(new HomePanel(), "home");
         jPanel2.add(new Managesupplierpanel(), "suppliers");
-        jPanel2.add(new Invoicepanel(), "invoices");
         jPanel2.add(new Adminpanel(), "inventory");
 
         cardLayout.show(jPanel2, "home"); // show home on start
@@ -144,7 +131,6 @@ public class AdminMainFrame extends javax.swing.JFrame {
 
     // Variables declaration
     private javax.swing.JButton btnInventory;
-    private javax.swing.JButton btnInvoices;
     private javax.swing.JButton btnSuppliers;
     private javax.swing.JButton btnLogout;
     private javax.swing.JPanel jPanel1;

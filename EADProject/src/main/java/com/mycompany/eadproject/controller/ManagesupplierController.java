@@ -1,24 +1,23 @@
 package com.mycompany.eadproject.controller;
 
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.eadproject.models.Databaseconnector;
-import com.mycompany.eadproject.view.Adminpanel;
+import com.mycompany.eadproject.view.Managesupplierpanel;
 
-public class AdminPannelController {
-    public Adminpanel pannel;
+public class ManagesupplierController {
+    public Managesupplierpanel pannel;
     public JTable table;
 
-    public AdminPannelController(Adminpanel pannel, JTable table){
+    public ManagesupplierController(Managesupplierpanel pannel, JTable table){
         this.pannel = pannel;
         this.table = table;
     }
 
     public void populateTable(){
         Databaseconnector dbc = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
-        String[][] test = dbc.selectsproducts();  
+        String[][] test = dbc.selectSupplier();  
 
         for (int i = 0; i < test.length; i++) { // Loop through rows
             for (int j = 0; j < test[i].length; j++) { // Loop through columns
@@ -28,7 +27,7 @@ public class AdminPannelController {
         }
 
         // Define column names
-        String[] columnNames = {"Product ID", "Product Name", "Supplier Number", "Product Price", "Product Quantity"};
+        String[] columnNames = {"Supplier Number", "Tell No", "Supplier Name"};
 
         // Create a table model and set it to the JTable
         DefaultTableModel model = new DefaultTableModel(columnNames, 0); // 0 rows initially
@@ -42,3 +41,4 @@ public class AdminPannelController {
         table.setColumnSelectionAllowed(true);
     }
 }
+

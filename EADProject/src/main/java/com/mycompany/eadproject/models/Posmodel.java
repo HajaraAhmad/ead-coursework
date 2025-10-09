@@ -1,71 +1,57 @@
 package com.mycompany.eadproject.models;
 
+/**
+ * Posmodel - Represents a single line item in a POS transaction
+ * This is a DATA MODEL only (no database logic)
+ */
 public class Posmodel {
-    private String id;
+    private String productId;
+    private String productName;
     private double price;
     private int quantity;
     
-
-    public Posmodel(String id, double price,int quantity){
-        this.id=id;
-        this.price=price;
-        this.quantity=quantity;
+    public Posmodel(String productId, double price, int quantity) {
+        this.productId = productId;
+        this.price = price;
+        this.quantity = quantity;
     }
 
-    public String getId() {
-    return id;
+    // Getters
+    public String getProductId() {
+        return productId;
     }
 
+    public String getProductName() {
+        return productName;
+    }
 
-     public double getPrice() {
+    public double getPrice() {
         return price;
     }
+
     public int getQuantity() {
-    return quantity;
-   }
-
-    //check price based on id
-    public void invoiceflow(String id){
-       Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
-        double price = db.getProductPrice(id);
-
-        System.out.println("Price for product " + id + " is: " + price);
-
+        return quantity;
     }
 
-    //check quantity
-    public void checkStock(String id, int quantity){
-        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
-        db.connectDatabase();
-
-       boolean result = db.checkProductStock(id, quantity);
-
-        if(result == true){
-            System.out.println("Quantity is available "+id);
-        }
-        else{
-            System.out.println("Quantity is unavailable for "+ id);
-        }
-
+    // Setters
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    //generate invoice
-    public void generateInv(String[][] products, String invoiceDate){
-         Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
-         db.connectDatabase();
-
-         // Step 1: Generate the invoice
-         String invoiceNumber = db.generateInvoice(products, invoiceDate);
-
-        // Step 2: Display it if successful
-        if (invoiceNumber != null) {
-        db.displayInvoiceFromDB(invoiceNumber);
-        } else {
-        System.out.println("❌ Invoice generation failed.");
-        }
+    // Business logic (stays with the model)
+    public double getSubtotal() {
+        return price * quantity;
     }
 
-  
-
+    @Override
+    public String toString() {
+        return "Posmodel{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", subtotal=" + getSubtotal() +
+                '}';
+    }
 }
 

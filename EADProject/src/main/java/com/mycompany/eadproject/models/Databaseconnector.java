@@ -35,8 +35,8 @@ public class Databaseconnector{
       }
 
       
-      public String selectUserFromUserEmail(String email){
-        String result = null;
+      public String[] selectUserFromUserEmail(String email){
+        String[] result =  new String[2];
         try{
              String query = "SELECT * FROM User WHERE user_email = ?";
 
@@ -46,11 +46,12 @@ public class Databaseconnector{
              ResultSet results = selectquery.executeQuery();
 
             if(results.next()){
-               result = results.getString("user_password");
+               result[0] = results.getString("user_password");
+               result[1] = results.getString("role");
             }
         }
         catch(Exception e){
-             return e.toString();
+            
         }
         return result;
       }
@@ -351,21 +352,30 @@ public void displayInvoiceFromDB(String invoiceNumber) {
     }
 
     //view all suppliers
-    public void selectsuppliers(){
-        try{
-             String query = "SELECT * FROM supplier";
+    public String[][] selectSupplier() {
+        String[][] suppliers;
+        int num_of_rows = getRows();
+        suppliers = new String[num_of_rows][3];
+        try {
 
-             PreparedStatement selectquery = conn.prepareStatement(query);
+            String query = "SELECT * FROM supplier";
+            PreparedStatement selectquery = conn.prepareStatement(query);
+            ResultSet results = selectquery.executeQuery();
 
-             ResultSet results = selectquery.executeQuery();
-             while (results.next()) {
-                System.out.println(results.getString("supplier_number") + " | " + results.getString("supplier_name") + " | " + results.getString("supplier_tellno"));
+            int i = 0;
+            while (results.next() && i < num_of_rows) {
+                suppliers[i][0] = results.getString("supplier_name");
+                suppliers[i][1] = results.getString("supplier_tellno");
+                suppliers[i][2] = results.getString("supplier_number");
+                i++;
             }
-        }
-        catch(Exception e){
+            results.close();
+            selectquery.close();
+        } catch (Exception e) {
             System.out.println(e);
         }
-      }
+        return suppliers;
+    }
 
 
 

@@ -4,6 +4,8 @@
  */
 package com.mycompany.eadproject.view;
 
+import com.mycompany.eadproject.controller.ManagesupplierController;
+
 /**
  *
  * @author ASUS VIVOBOOK
@@ -15,6 +17,8 @@ public class Managesupplierpanel extends javax.swing.JPanel {
      */
     public Managesupplierpanel() {
         initComponents();
+        ManagesupplierController controller = new ManagesupplierController(this, jTable1);
+        controller.populateTable();
     }
 
     /**

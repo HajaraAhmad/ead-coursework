@@ -3,11 +3,7 @@
  */
 
 package com.mycompany.eadproject;
-import java.util.Scanner;
-
-import com.mycompany.eadproject.models.Databaseconnector;
-import com.mycompany.eadproject.models.Posmodel;
-import com.mycompany.eadproject.view.AdminMainFrame;
+import com.mycompany.eadproject.view.Loginpage;
 
 /**
  *
@@ -16,8 +12,9 @@ import com.mycompany.eadproject.view.AdminMainFrame;
 public class EADProject {
 
     public static void main(String[] args) {
-      AdminMainFrame view = new AdminMainFrame();
+      Loginpage view = new Loginpage();
       view.setVisible(true);
+
 
     
     /*    
