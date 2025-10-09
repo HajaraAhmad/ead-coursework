@@ -3,9 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.eadproject.view;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.eadproject.controller.AdminPannelController;
+import com.mycompany.eadproject.models.Databaseconnector; // Fixes error on Line 122 (DefaultTableModel)
+import com.mycompany.eadproject.models.Inventorymodel;
+// If ProductInputDialog is in the same package (com.mycompany.eadproject.view), 
+// you don't need to import it. If it's in a different package, use:
 import com.mycompany.eadproject.view.ProductInputDialog;
+
 /**
  *
  * @author ASUS VIVOBOOK
@@ -17,6 +26,9 @@ public class Adminpanel extends javax.swing.JPanel {
      */
     public Adminpanel() {
         initComponents();
+
+        AdminPannelController controller = new AdminPannelController(this, jTable1);
+        
     }
 
     /**
@@ -27,14 +39,10 @@ public class Adminpanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        AdminPannelController controller = new AdminPannelController(this, jTable1);
-        jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-/* 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+         jScrollPane1 = new javax.swing.JScrollPane();
+
+          jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -47,13 +55,27 @@ public class Adminpanel extends javax.swing.JPanel {
                 "Product ID", "Product Name", "Supplier Number", "Product Price", "Product Quantity"
             }
         ));
+
+        jScrollPane1.setViewportView(jTable1); 
+
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
+       
+
+       
+        /* 
         jTable1.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTable1); */
+
+      
 
         jButton1.setText("Add Product");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+               ProductInputDialog dialog = new ProductInputDialog(null, true, "ADD");
+                 dialog.setVisible(true);
             }
         });
 
@@ -90,17 +112,96 @@ public class Adminpanel extends javax.swing.JPanel {
                     .addComponent(jButton1))
                 .addContainerGap(117, Short.MAX_VALUE))
         );
-        controller.populateTable();
+       
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-           /*ProductInputDialog dialog = new ProductInputDialog(null, true, "ADD");
-            dialog.setVisible(true);
-    // After dialog closes, refresh the table if needed
-            loadInventoryTable();
-            */
-    }//GEN-LAST:event_jButton1ActionPerformed
+            // 1. Open the separate dialog box for input
+         ProductInputDialog dialog = new ProductInputDialog(null, true, "ADD");
+          dialog.setVisible(true);
+         
+       
+        
+    // 2. Refresh the table AFTER the dialog is closed
+         loadInventoryTable();
+    } private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    // Keep this stub if the GUI builder is referencing it (which it seems to be)
+}                                         
 
+    
+    //GEN-LAST:event_jButton1ActionPerformed
+    
+    // Inside Adminpanel.java
+    // Inside Adminpanel.java
+   /*  private void loadInventoryTable() {
+    // You must ensure these imports are at the top of Adminpanel.java:
+    // import java.sql.SQLException;
+    // import java.util.List;
+    // import javax.swing.table.DefaultTableModel;
+    // import com.mycompany.eadproject.models.Inventorymodel; // Or Product
+    // import com.mycompany.eadproject.dao.databaseconnector; // Adjust path if needed
+    
+    try {
+        // 1. Clear existing table data
+        // NOTE: Replace 'JTable1' with the actual variable name of your JTable if it's different.
+        // Based on the structure, it is likely named 'jTable1' or 'table' or similar.
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel(); 
+        model.setRowCount(0); 
+
+        // 2. Instantiate your database connector
+        // Hardcoded credentials are kept here for continuity, but should be managed externally
+        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        
+        // 3. Fetch all products using your DAO method
+        List<Inventorymodel> productList = db.getAllProducts(); 
+        
+        // 4. Loop through the data and add it to the table model
+        for (Inventorymodel p : productList) {
+            // Ensure the order of p.get...() matches your table column headers:
+            // (Product ID, Product Name, Supplier Number, Product Price, Product Quantity)
+            model.addRow(new Object[]{
+                p.getid(), 
+                p.getname(), 
+                p.getsupplierno(), 
+                p.getprice(), 
+                p.getquantity() 
+            });
+        }
+    } catch (SQLException e) {
+        // Display an error if the database connection or query fails
+        javax.swing.JOptionPane.showMessageDialog(this, "Error loading inventory data: " + e.getMessage(), "Database Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        // Catch general errors (like class not found, etc.)
+        System.out.println("General error in loading table: " + e.getMessage());
+    }
+}*/
+public void loadInventoryTable() {
+    // 1. Define the columns for your table
+    String[] columnNames = {"Product ID", "Product Name", "Supplier No", "Price", "Quantity"};
+    
+    // 2. Create a DefaultTableModel
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(columnNames, 0);
+
+    try {
+        // 3. Get the data from the database
+        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        java.util.List<String[]> data = db.getAllProducts(); // <-- This method needs to be created (see Section 2)
+
+        // 4. Add data rows to the model
+        for (String[] row : data) {
+            model.addRow(row);
+        }
+
+    } catch (java.sql.SQLException e) {
+        // Handle any connection or SQL errors here
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "Error loading inventory: " + e.getMessage(), "DB Error", 
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    
+    // 5. Apply the model to your JTable (jTable1 is a common default name)
+    jTable1.setModel(model);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

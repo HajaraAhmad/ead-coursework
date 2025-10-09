@@ -4,6 +4,17 @@
  */
 package com.mycompany.eadproject.view;
 
+
+import com.mycompany.eadproject.models.Databaseconnector; // To access the addProduct method
+import com.mycompany.eadproject.models.Inventorymodel;   // To create the product object
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import java.sql.SQLException; 
+// ... other imports
+
+import javax.swing.JFrame;
+
 /**
  *
  * @author ASUS VIVOBOOK
@@ -15,11 +26,31 @@ public class ProductInputDialog extends javax.swing.JDialog {
     /**
      * Creates new form ProductInputDialog
      */
-    public ProductInputDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
+   
+    
+    // Inside ProductInputDialog.java
+
+        public ProductInputDialog(java.awt.Frame parent, boolean modal, String actionType) { 
+    // This calls the parent JDialog constructor correctly
+    super(parent, modal); 
+    
+    initComponents();
+    
+    // Add the action listener for the Cancel button here (as planned)
+    btnCancel.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            dispose(); 
+        }
+    });
+
+    this.setTitle(actionType + " Product"); // Use the actionType
     }
 
+// NOTE: Also ensure you remove the second package declaration at the top 
+// of this file, as shown in the previous response.
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,22 +60,198 @@ public class ProductInputDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txtProductId = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtProductName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtSupplierNo = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtPrice = new javax.swing.JTextField();
+        txtQuantity = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setText("Product ID: ");
+
+        txtProductId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtProductIdActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Product Name:");
+
+        jLabel3.setText("Supplier No:");
+
+        jLabel4.setText("Price");
+
+        jLabel5.setText("Quantity");
+
+        btnSave.setText("Save Product");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtProductName)
+                                .addComponent(txtSupplierNo)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                        .addComponent(txtProductId))))
+                            .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(57, 57, 57))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(btnCancel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtSupplierNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave)
+                    .addComponent(btnCancel))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        saveProductAction();// TODO add your handling code here:
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void txtProductIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductIdActionPerformed
+        
+    }//GEN-LAST:event_txtProductIdActionPerformed
+
+    private void saveProductAction() {
+    String id = txtProductId.getText().trim();
+    String name = txtProductName.getText().trim();
+    String supplierNo = txtSupplierNo.getText().trim();
+    
+    // --- 1. Input Validation and Conversion ---
+    double price;
+    int quantity;
+    
+    try {
+        price = Double.parseDouble(txtPrice.getText().trim());
+        quantity = Integer.parseInt(txtQuantity.getText().trim());
+        
+        // Basic check for empty strings
+        if (id.isEmpty() || name.isEmpty() || supplierNo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All text fields must be filled.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+ 
+        
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Price and Quantity must be valid numbers.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // --- 2. Call the Database DAO Method ---
+    // NOTE: You need to instantiate your Databaseconnector here.
+    // Replace "supermarket", "root", and "ashroff64" with your actual credentials.
+    try {
+        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        
+        // Use the method you provided (assuming it returns the product_id or a success message)
+        String resultId = db.addProduct(id, name, supplierNo, price, quantity); 
+        
+        if (resultId != null) {
+            JOptionPane.showMessageDialog(this, "Product '" + resultId + "' added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Critical Step: Close the dialog and notify Adminpanel to refresh
+            dispose();
+            
+            // OPTIONAL: If Adminpanel is the parent JFrame, you may need to call a method 
+            // on the parent to loadInventoryTable()
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to add product.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
+
+    
+    catch (java.sql.SQLException e) {
+    String errorMessage = e.getMessage();
+    
+    // Check for the Foreign Key error message
+    if (errorMessage != null && errorMessage.contains("Cannot add or update a child row")) {
+        JOptionPane.showMessageDialog(
+            this, 
+            "Error: Invalid Supplier Number. Please enter an existing Supplier No.", 
+            "Validation Error", 
+            JOptionPane.ERROR_MESSAGE
+        );
+    } else { // <-- Keep this else block for general SQL errors
+        JOptionPane.showMessageDialog(
+            this, 
+            "Database Error: " + errorMessage, 
+            "Database Error", 
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+    System.out.println("SQL Exception: " + errorMessage);
+
+    } catch (Exception e) {
+    // This is the catch for ANY OTHER exception type
+    JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    }
     /**
      * @param args the command line arguments
      */
@@ -70,7 +277,7 @@ public class ProductInputDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ProductInputDialog dialog = new ProductInputDialog(new javax.swing.JFrame(), true);
+                ProductInputDialog dialog = new ProductInputDialog(new javax.swing.JFrame(), true, "DEMO"); // ADDED "DEMO"
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -83,5 +290,17 @@ public class ProductInputDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtProductId;
+    private javax.swing.JTextField txtProductName;
+    private javax.swing.JTextField txtQuantity;
+    private javax.swing.JTextField txtSupplierNo;
     // End of variables declaration//GEN-END:variables
 }

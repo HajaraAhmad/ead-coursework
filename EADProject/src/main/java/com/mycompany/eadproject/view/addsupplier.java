@@ -2,20 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.mycompany.eadproject.otherobjects;
+package com.mycompany.eadproject.view;
 
 /**
  *
  * @author ASUS VIVOBOOK
  */
-public class ProductInputDialog extends javax.swing.JDialog {
+public class addsupplier extends javax.swing.JDialog {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProductInputDialog.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(addsupplier.class.getName());
 
     /**
-     * Creates new form ProductInputDialog
+     * Creates new form addsupplier
      */
-    public ProductInputDialog(java.awt.Frame parent, boolean modal) {
+    public addsupplier(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -70,7 +70,7 @@ public class ProductInputDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ProductInputDialog dialog = new ProductInputDialog(new javax.swing.JFrame(), true);
+                addsupplier dialog = new addsupplier(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

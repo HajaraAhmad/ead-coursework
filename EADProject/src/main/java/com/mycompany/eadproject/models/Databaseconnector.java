@@ -4,8 +4,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Databaseconnector {
+public class Databaseconnector{
     private String url;
     private String username;
     private String password;
@@ -55,7 +57,7 @@ public class Databaseconnector {
 
 
       //add product
-      public String addProduct(String product_id,String product_name, String supplier_number, double product_price, int product_quantity){
+      public String addProduct(String product_id,String product_name, String supplier_number, double product_price, int product_quantity) throws java.sql.SQLException{
         try {
             String query = "INSERT INTO product (product_id, product_name, supplier_number, product_price,product_quantity) values (?,?,?,?,?)";
 
@@ -85,6 +87,12 @@ public class Databaseconnector {
 
     public String updateProduct(String product_id, String product_name, String supplier_number, double product_price, int product_quantity) throws SQLException {
     
+
+    //view all product
+  
+   
+
+
     // The query sets new values for all four columns.
         String query = "UPDATE product SET product_name = ?, supplier_number = ?, product_price = ?, product_quantity = ? WHERE product_id = ?";
 
@@ -113,6 +121,8 @@ public class Databaseconnector {
          }
         return product_id;
     }
+
+
 
       //when invoice created product updated
       // --- Fetch Product Price ---
@@ -411,5 +421,28 @@ public void displayInvoiceFromDB(String invoiceNumber) {
     }
 
 
+
+    public List<Inventorymodel> getAllProducts() throws SQLException {
+    List<Inventorymodel> productList = new ArrayList<>();
+    
+    // ... rest of your connection/query code ...
+    String query = "SELECT product_id, product_name, supplier_number, product_price, product_quantity FROM product";
+
+    try (PreparedStatement selectProducts = conn.prepareStatement(query);
+         ResultSet rs = selectProducts.executeQuery()) {
+        
+        while (rs.next()) {
+            String id = rs.getString("product_id");
+            String name = rs.getString("product_name");
+            String supplier = rs.getString("supplier_number");
+            double price = rs.getDouble("product_price");
+            int quantity = rs.getInt("product_quantity");
+            
+            Inventorymodel product = new Inventorymodel(id, name, supplier, price, quantity);
+            productList.add(product);
+        }
+    } 
+    return productList;
+}
 
 }

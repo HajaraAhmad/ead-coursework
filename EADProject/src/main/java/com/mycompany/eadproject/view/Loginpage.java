@@ -13,13 +13,36 @@ import com.mycompany.eadproject.controller.Logincontroller;
 public class Loginpage extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Loginpage.class.getName());
-    
+    private Logincontroller controller;
+
+    // Inside Loginpage.java
+
+    // Add public getter methods for the controller to use
+    public String getUsername() {
+    // Assuming the field name for the username/email is txtemail
+    return txtemail.getText(); 
+    }
+
+    public String getPassword() {
+    // Assuming the field name for the password is txtpassword
+    // JPasswordField.getPassword() returns char[], convert to String
+    return new String(txtpassword.getPassword());
+    }
 
     /**
      * Creates new form Loginpage
      */
     public Loginpage() {
         initComponents();
+        this.controller = new Logincontroller(this);
+
+        this.jButton1.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+        controller.enterButtonClicked();
+        }
+    });
+        
         
     }
 
@@ -52,7 +75,7 @@ public class Loginpage extends javax.swing.JFrame {
         jTextField2.setText("jTextField2");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+               
             }
         });
 
@@ -66,22 +89,14 @@ public class Loginpage extends javax.swing.JFrame {
 
         txtemail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtemail.setText("example@gmail.com");
-        txtemail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtemailActionPerformed(evt);
-            }
-        });
+       
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setText("Login Form");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jButton1.setText("Enter");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        
 
         txtpassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtpassword.setText("jPasswordField1");
@@ -131,9 +146,21 @@ public class Loginpage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtemailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtemailActionPerformed
+    
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    // This is the action for the username/email field (if defined in initComponents)
+    }                                         
+
+
+    private void txtemailActionPerformed(java.awt.event.ActionEvent evt) { 
+    // This is the action for the txtemail field, which the GUI builder removed the body for.
+} 
+
+// Insert this in Loginpage.java:
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { 
+    // This empty method must be here to resolve the compiler error.
+}
+
 
     /**
      * @param args the command line arguments
@@ -160,6 +187,10 @@ public class Loginpage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new Loginpage().setVisible(true));
     }*/
 
+    // Inside Loginpage.java, near the end of the file
+
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JColorChooser jColorChooser1;
@@ -175,7 +206,11 @@ public class Loginpage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField txtemail;
-    private javax.swing.JPasswordField txtpassword;
+    public javax.swing.JTextField txtemail;
+    public javax.swing.JPasswordField txtpassword;
     // End of variables declaration//GEN-END:variables
+
+    // Inside Loginpage.java, near the end of the file
+
+
 }
