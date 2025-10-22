@@ -3,8 +3,9 @@ package com.mycompany.eadproject.controller;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.mycompany.eadproject.models.Databaseconnector;
+import com.mycompany.eadproject.models.DatabaseConnector;
 import com.mycompany.eadproject.view.Managesupplierpanel;
+import com.mycompany.eadproject.view.utillity.Addsupplier;
 
 public class ManagesupplierController {
     public Managesupplierpanel pannel;
@@ -16,7 +17,7 @@ public class ManagesupplierController {
     }
 
     public void populateTable(){
-        Databaseconnector dbc = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        DatabaseConnector dbc = new DatabaseConnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
         String[][] test = dbc.selectSupplier();  
 
         for (int i = 0; i < test.length; i++) { // Loop through rows
@@ -39,6 +40,11 @@ public class ManagesupplierController {
 
         table.setModel(model); // Update JTable
         table.setColumnSelectionAllowed(true);
+    }
+
+    public void addSupplier(){
+        Addsupplier supplier = new Addsupplier();
+        supplier.setVisible(true);
     }
 }
 

@@ -1,26 +1,29 @@
 package com.mycompany.eadproject.view;
 
-import com.mycompany.eadproject.models.Posmodel;
-import com.mycompany.eadproject.models.Services.PosServices;
+import com.mycompany.eadproject.controller.InvoiceController;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
 
-public class Invoice extends javax.swing.JFrame {
+/**
+ * InvoiceView - Pure UI layer
+ * Delegates all business logic to InvoiceController
+ */
+public class InvoiceView extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = 
-        java.util.logging.Logger.getLogger(Invoice.class.getName());
+    private DefaultTableModel tableModel;
+    private InvoiceController controller;
 
-    DefaultTableModel model;
-    ArrayList<Posmodel> cart = new ArrayList<>();
-    PosServices posService = new PosServices();
-
-    public Invoice() {
+    public InvoiceView() {
         initComponents();
-        model = (DefaultTableModel) tblInvoice.getModel();
-        model.setColumnIdentifiers(
+        
+        // Initialize table model
+        tableModel = (DefaultTableModel) tblInvoice.getModel();
+        tableModel.setColumnIdentifiers(
             new String[] {"Product ID", "Name", "Quantity", "Price", "Subtotal"}
         );
+        
+        // Initialize controller
+        controller = new InvoiceController(tableModel);
     }
 
     @SuppressWarnings("unchecked")
@@ -143,104 +146,51 @@ public class Invoice extends javax.swing.JFrame {
         pack();
     }
 
+    /**
+     * Handle Add Item button click
+     */
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            String productId = txtProductId.getText().trim();
-            if (productId.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter Product ID");
-                return;
-            }
+        String productId = txtProductId.getText();
+        String quantity = txtQuantity.getText();
 
-            int qty;
-            try {
-                qty = Integer.parseInt(txtQuantity.getText().trim());
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(this, "Enter a valid quantity");
-                return;
-            }
+        boolean success = controller.handleAddProduct(productId, quantity);
 
-            // Use service layer to check stock
-            if (!posService.hasEnoughStock(productId, qty)) {
-                JOptionPane.showMessageDialog(this, 
-                    "Not enough stock for product: " + productId);
-                return;
-            }
-
-            // Get price and name from service
-            double price = posService.getProductPrice(productId);
-            if (price < 0) {
-                JOptionPane.showMessageDialog(this, 
-                    "Product not found: " + productId);
-                return;
-            }
-
-            String name = posService.getProductName(productId);
-            if (name == null) name = "Unknown";
-
-            // Create model object (pure data, no DB logic)
-            Posmodel item = new Posmodel(productId, price, qty);
-            item.setProductName(name);
+        if (success) {
+            // Update total display
+            updateTotalDisplay();
             
-            double subtotal = item.getSubtotal();
-            cart.add(item);
-            model.addRow(new Object[]{
-                productId, name, qty, price, subtotal
-            });
-
-            // Update total
-            double total = posService.calculateTotal(cart);
-            lblTotal.setText("Total Rs: " + total);
-            
-            // Clear inputs
+            // Clear inputs and focus
             txtProductId.setText("");
             txtQuantity.setText("");
             txtProductId.requestFocus();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, 
-                "Error adding item: " + e.getMessage());
         }
     }
 
+    /**
+     * Handle Generate Invoice button click
+     */
     private void btnGenerateInvoiceActionPerformed(java.awt.event.ActionEvent evt) {
-        if (cart.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "No items to generate invoice!");
-            return;
-        }
+        boolean success = controller.handleGenerateInvoice();
 
-        try {
-            // Use service to generate invoice
-            String invoiceNumber = posService.generateAndSaveInvoice(cart);
-
-            if (invoiceNumber != null) {
-                JOptionPane.showMessageDialog(this, 
-                    "Invoice generated successfully!\n" +
-                    "Invoice #: " + invoiceNumber);
-                
-                // Display the invoice
-                posService.displayInvoice(invoiceNumber);
-
-                // Clear UI
-                model.setRowCount(0);
-                cart.clear();
-                lblTotal.setText("Total Rs: 0.0");
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Failed to generate invoice!");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, 
-                "Error generating invoice: " + e.getMessage());
+        if (success) {
+            // Reset total display
+            lblTotal.setText("Total Rs: 0.0");
         }
     }
 
+    /**
+     * Handle Enter key press in Product ID field
+     */
     private void txtProductIdActionPerformed(java.awt.event.ActionEvent evt) {
-        // Optional: Allow pressing Enter to add item
-        btnAddActionPerformed(null);
+        txtQuantity.requestFocus();
+    }
+
+    /**
+     * Update the total display label
+     */
+    private void updateTotalDisplay() {
+        double total = controller.getInvoiceTotal();
+        lblTotal.setText(String.format("Total Rs: %.2f", total));
     }
 
     // Variables declaration - do not modify

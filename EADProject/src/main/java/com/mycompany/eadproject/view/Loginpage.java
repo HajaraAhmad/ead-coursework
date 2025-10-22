@@ -4,7 +4,7 @@
  */
 package com.mycompany.eadproject.view;
 
-import com.mycompany.eadproject.controller.Logincontroller;
+import com.mycompany.eadproject.controller.LoginController;
 
 /**
  *
@@ -13,37 +13,15 @@ import com.mycompany.eadproject.controller.Logincontroller;
 public class Loginpage extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Loginpage.class.getName());
-    private Logincontroller controller;
-
-    // Inside Loginpage.java
-
-    // Add public getter methods for the controller to use
-    public String getUsername() {
-    // Assuming the field name for the username/email is txtemail
-    return txtemail.getText(); 
-    }
-
-    public String getPassword() {
-    // Assuming the field name for the password is txtpassword
-    // JPasswordField.getPassword() returns char[], convert to String
-    return new String(txtpassword.getPassword());
-    }
+    private LoginController controller; //Controller Object creation
 
     /**
      * Creates new form Loginpage
      */
     public Loginpage() {
         initComponents();
-        this.controller = new Logincontroller(this);
+        this.controller = new LoginController(this);    //Connecting the view to the controller
 
-        this.jButton1.addActionListener(new java.awt.event.ActionListener() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-        controller.enterButtonClicked();
-        }
-    });
-        
-        
     }
 
     /**
@@ -84,22 +62,12 @@ public class Loginpage extends javax.swing.JFrame {
         jLabel2.setText("Password");
 
         txtemail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtemail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtemailActionPerformed(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setText("Login Form");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jButton1.setText("Enter");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         txtpassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -147,53 +115,13 @@ public class Loginpage extends javax.swing.JFrame {
                 .addGap(29, 29, 29))
         );
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-    // This is the action for the username/email field (if defined in initComponents)
-    }                                         
-
-
-    private void txtemailActionPerformed(java.awt.event.ActionEvent evt) { 
-    // This is the action for the txtemail field, which the GUI builder removed the body for.
-} 
-
-// Insert this in Loginpage.java:
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { 
-    // This empty method must be here to resolve the compiler error.
-}
-
-
-    /**
-     * @param args the command line arguments
-     */
-    /*public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        this.jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            controller.enterButtonClicked();
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form *//*
-        java.awt.EventQueue.invokeLater(() -> new Loginpage().setVisible(true));
-    }*/
-
-    // Inside Loginpage.java, near the end of the file
-
-
+        });
+        pack();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

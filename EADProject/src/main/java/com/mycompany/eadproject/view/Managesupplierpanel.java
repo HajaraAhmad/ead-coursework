@@ -11,13 +11,14 @@ import com.mycompany.eadproject.controller.ManagesupplierController;
  * @author ASUS VIVOBOOK
  */
 public class Managesupplierpanel extends javax.swing.JPanel {
+    ManagesupplierController controller;
 
     /**
      * Creates new form Managesupplierpanel
      */
     public Managesupplierpanel() {
         initComponents();
-        ManagesupplierController controller = new ManagesupplierController(this, jTable1);
+        this.controller = new ManagesupplierController(this, jTable1);
         controller.populateTable();
     }
 
@@ -33,7 +34,6 @@ public class Managesupplierpanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -51,10 +51,12 @@ public class Managesupplierpanel extends javax.swing.JPanel {
         ));
         jTable1.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTable1);
-
+        this.jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            controller.addSupplier();
+            }
+        });
         jButton1.setText("Add Supplier");
-
-        jButton2.setText("Update Supplier");
 
         jButton3.setText("Delete Supplier");
 
@@ -67,8 +69,6 @@ public class Managesupplierpanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(112, 112, 112)
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
@@ -84,7 +84,6 @@ public class Managesupplierpanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
@@ -93,7 +92,6 @@ public class Managesupplierpanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

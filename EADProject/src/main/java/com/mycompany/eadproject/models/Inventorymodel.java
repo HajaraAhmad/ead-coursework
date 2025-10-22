@@ -41,7 +41,7 @@ public class Inventorymodel{
 
     public void enterProduct(){
         try{
-        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        DatabaseConnector db = new DatabaseConnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
         String result=db.addProduct(this.id, this.name, this.supplier_no, this.price, this.quantity);
 
        
@@ -59,7 +59,7 @@ public class Inventorymodel{
     public void updateProduct(){
     try{
         // 1. Establish database connection
-        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        DatabaseConnector db = new DatabaseConnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
         
         // 2. Call the updateProduct method from the connector
         String result = db.updateProduct(

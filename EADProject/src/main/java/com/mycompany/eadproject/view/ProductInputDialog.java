@@ -5,7 +5,7 @@
 package com.mycompany.eadproject.view;
 
 
-import com.mycompany.eadproject.models.Databaseconnector; // To access the addProduct method
+import com.mycompany.eadproject.models.DatabaseConnector; // To access the addProduct method
 import com.mycompany.eadproject.models.Inventorymodel;   // To create the product object
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -204,7 +204,7 @@ public class ProductInputDialog extends javax.swing.JDialog {
     // NOTE: You need to instantiate your Databaseconnector here.
     // Replace "supermarket", "root", and "ashroff64" with your actual credentials.
     try {
-        Databaseconnector db = new Databaseconnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
+        DatabaseConnector db = new DatabaseConnector("jdbc:mysql://127.0.0.1:3306/supermarket", "root", "ashroff64");
         
         // Use the method you provided (assuming it returns the product_id or a success message)
         String resultId = db.addProduct(id, name, supplierNo, price, quantity); 

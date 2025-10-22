@@ -5,8 +5,9 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.mycompany.eadproject.controller.HomePanelController;
 
 /**
  * This panel represents the initial content (home page)
@@ -16,11 +17,12 @@ public class HomePanel extends JPanel {
 
     private JLabel jLabel1;
     private JLabel jLabel2;
-    private JButton jButton5;
     private JButton jButton6;
+    HomePanelController controller;
 
     public HomePanel() {
         initComponents();
+        this.controller = new HomePanelController(this);
     }
 
     private void initComponents() {
@@ -39,30 +41,12 @@ public class HomePanel extends JPanel {
         jLabel2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         jLabel2.setBounds(420, 100, 200, 25);
         add(jLabel2);
-
-        // -------- Button 5 (Generate Inventory Report) --------
-        jButton5 = new JButton("Generate Inventory Report");
-        jButton5.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        jButton5.setBounds(550, 400, 220, 50);
-        jButton5.addActionListener(evt -> generateInventoryReport());
-        add(jButton5);
-
+        
         // -------- Button 6 (Generate Stock Report) --------
         jButton6 = new JButton("Generate Stock Report");
         jButton6.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         jButton6.setBounds(250, 400, 220, 50);
-        jButton6.addActionListener(evt -> generateStockReport());
+        jButton6.addActionListener(evt -> this.controller.generateStockReport());
         add(jButton6);
     }
-
-    // ---- Placeholder methods for button actions ----
-    private void generateInventoryReport() {
-        JOptionPane.showMessageDialog(this, "Generating Inventory Report...");
-    }
-
-    private void generateStockReport() {
-        JOptionPane.showMessageDialog(this, "Generating Stock Report...");
-    }
 }
-
-

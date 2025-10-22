@@ -3,23 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.eadproject.view;
-import java.sql.SQLException;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
 import com.mycompany.eadproject.controller.AdminPannelController;
-import com.mycompany.eadproject.models.Databaseconnector; // Fixes error on Line 122 (DefaultTableModel)
-import com.mycompany.eadproject.models.Inventorymodel;
-// If ProductInputDialog is in the same package (com.mycompany.eadproject.view), 
-// you don't need to import it. If it's in a different package, use:
-import com.mycompany.eadproject.view.ProductInputDialog;
 
 /**
  *
  * @author ASUS VIVOBOOK
  */
 public class Adminpanel extends javax.swing.JPanel {
+    AdminPannelController controller;
 
     /**
      * Creates new form Adminpanel
@@ -27,7 +18,7 @@ public class Adminpanel extends javax.swing.JPanel {
     public Adminpanel() {
         initComponents();
 
-        AdminPannelController controller = new AdminPannelController(this, jTable1);
+        this.controller = new AdminPannelController(this, jTable1);
         controller.populateTable();
     }
 
@@ -43,7 +34,6 @@ public class Adminpanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -62,20 +52,14 @@ public class Adminpanel extends javax.swing.JPanel {
         jTable1.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Add Product");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Adminpanel.this.controller.AddBtnClicked();
             }
         });
 
-        jButton2.setText("Update Product");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
+        jButton1.setText("Add Product");
         jButton3.setText("Delete Product");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -86,8 +70,6 @@ public class Adminpanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(62, 62, 62)
-                .addComponent(jButton2)
-                .addGap(67, 67, 67)
                 .addComponent(jButton3)
                 .addGap(104, 104, 104))
             .addGroup(layout.createSequentialGroup()
@@ -103,37 +85,18 @@ public class Adminpanel extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton2)
                     .addComponent(jButton1))
                 .addContainerGap(117, Short.MAX_VALUE))
         );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            // 1. Open the separate dialog box for input
-         ProductInputDialog dialog = new ProductInputDialog(null, true, "ADD");
-          dialog.setVisible(true);
-         
-       
-        
-    // 2. Refresh the table AFTER the dialog is closed
-         
-    } private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-    // Keep this stub if the GUI builder is referencing it (which it seems to be)
-}                                         
-
-    
-//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-              // TODO add your handling code here:
-    }
+    }             
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
 }
+
+

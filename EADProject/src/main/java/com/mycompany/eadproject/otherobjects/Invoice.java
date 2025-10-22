@@ -1,35 +1,69 @@
 package com.mycompany.eadproject.otherobjects;
+
+import java.time.LocalDate;
 import java.util.HashMap;
-
-import javax.print.attribute.standard.DateTimeAtCreation;
-
-
+import java.util.Map;
 
 public class Invoice {
-    private HashMap<Product,Integer> hash = new HashMap<Product,Integer>();
+    private HashMap<Product, Integer> items = new HashMap<>();
     private String invoice_number;
     private double total;
     private String invoice_date;
-    private String product_id;
-    private String product_name;
 
-    public Invoice( String invoice_number){
-        this.invoice_number=invoice_number;
-        this.total= 0.0;
+    public Invoice(String invoice_number) {
+        this.invoice_number = invoice_number;
+        this.total = 0.0;
+        this.invoice_date = LocalDate.now().toString();
     }
 
-    public void addItemList(Product item,int quantity){
-        hash.put(item,quantity);
-
-        updatetotal(item.getproductprice()*quantity);
-
+    /**
+     * Add a product to the invoice with quantity
+     */
+    public void addItem(Product product, int quantity) {
+        if (items.containsKey(product)) {
+            // Update quantity if product already exists
+            int existingQty = items.get(product);
+            items.put(product, existingQty + quantity);
+        } else {
+            items.put(product, quantity);
+        }
+        updateTotal(product.getProductPrice() * quantity);
     }
 
-    public void updatetotal(double increment_price){
-        this.total+=increment_price;
+    /**
+     * Remove a product from the invoice
+     */
+    public void removeItem(Product product) {
+        if (items.containsKey(product)) {
+            int quantity = items.get(product);
+            updateTotal(-(product.getProductPrice() * quantity));
+            items.remove(product);
+        }
     }
 
+    /**
+     * Update the total price
+     */
+    private void updateTotal(double incrementPrice) {
+        this.total += incrementPrice;
+    }
 
+    /**
+     * Convert invoice items to 2D array for database storage
+     * Format: [productId, quantity]
+     */
+    public String[][] toProductArray() {
+        String[][] productArray = new String[items.size()][2];
+        int i = 0;
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            productArray[i][0] = entry.getKey().getProductId();
+            productArray[i][1] = String.valueOf(entry.getValue());
+            i++;
+        }
+        return productArray;
+    }
+
+    // Getters
     public String getInvoiceNumber() {
         return invoice_number;
     }
@@ -42,49 +76,15 @@ public class Invoice {
         return invoice_date;
     }
 
+    public HashMap<Product, Integer> getItems() {
+        return items;
+    }
+
     public void setInvoiceDate(String invoice_date) {
         this.invoice_date = invoice_date;
     }
 
-    
-
-    public HashMap<Product, Integer> getItems() {
-        return hash;
-    }
-
-    // Display invoice (console version)
-    public void displayInvoice() {
-        System.out.println("\n");
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("               SUPERMARKET INVOICE                 ");
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("Invoice Number: " + invoice_number);
-        System.out.println("Date: " + invoice_date);
-        System.out.println("───────────────────────────────────────────────────────");
-        System.out.printf("%-15s %-20s %-10s %-10s %-10s%n", 
-            "Product ID", "Product Name", "Quantity", "Price", "Subtotal");
-        System.out.println("───────────────────────────────────────────────────────");
-
-        // Loop through all products
-        for (HashMap.Entry<Product, Integer> entry : hash.entrySet()) {
-            Product product = entry.getKey();
-            int quantity = entry.getValue();
-            double subtotal = product.getproductprice() * quantity;
-
-            System.out.printf("%-15s %-20s %-10d Rs.%-8.2f Rs.%-8.2f%n",
-                product.getproductid(), 
-                product.getproductname(),
-                quantity,
-                product.getproductprice(),
-                subtotal
-            );
-        }
-
-        System.out.println("───────────────────────────────────────────────────────");
-        System.out.printf("%-46s Rs.%-8.2f%n", "GRAND TOTAL:", total);
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("           Thank you for shopping with us!             ");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+    public boolean isEmpty() {
+        return items.isEmpty();
     }
 }
-
